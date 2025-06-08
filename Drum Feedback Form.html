@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Drums Class Feedback Form</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  :root {
+    --color-bg: #ffffff;
+    --color-primary: #111827;
+    --color-text: #6b7280;
+    --color-accent: #000000;
+    --radius: 0.75rem;
+    --shadow-light: rgba(0,0,0,0.05);
+    --shadow-focus: rgba(0,0,0,0.15);
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+    line-height: 1.5;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  header h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  header p.subtitle {
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+  form {
+    background: #fefefe;
+    border-radius: var(--radius);
+    padding: 3rem 3rem 3.5rem;
+    box-shadow: 0 12px 24px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  label.section-label {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .input-text, textarea {
+    width: 100%;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--color-primary);
+    background: #fff;
+    border: 1.5px solid #d1d5db;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    resize: vertical;
+  }
+  .input-text:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 8px var(--shadow-focus);
+  }
+  textarea {
+    min-height: 100px;
+  }
+  /* Radio group styling */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+  }
+  .radio-item {
+    flex: 1 1 120px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .radio-item input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    position: relative;
+    transition:border-color var(--transition), box-shadow var(--transition);
+  }
+  .radio-item input[type="radio"]:checked {
+    border-color: var(--color-accent);
+  }
+  .radio-item input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+  }
+  .radio-item label {
+    user-select: none;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+  .radio-item input[type="radio"]:focus-visible {
+    outline-offset: 2px;
+    outline: 2px solid var(--color-accent);
+  }
+  /* Submit button */
+  button[type="submit"] {
+    max-width: 220px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: background-color var(--transition);
+    align-self: start;
+  }
+  button[type="submit"]:hover,
+  button[type="submit"]:focus-visible {
+    background-color: #222;
+    outline: none;
+  }
+  /* Thank you message */
+  .thank-you-message {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-align: center;
+    margin-top: 1rem;
+    display: none;
+  }
+  /* Responsive */
+  @media (max-width: 720px) {
+    .radio-group {
+      flex-direction: column;
+    }
+    .radio-item {
+      flex: initial;
+      margin-bottom: 0.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main" aria-labelledby="form-title">
+    <header>
+      <h1 id="form-title">Drums Class Feedback</h1>
+      <p class="subtitle">We appreciate your input! Please help us improve by answering a few questions about the class.</p>
+    </header>
+    <form id="feedback-form" novalidate>
+      <!-- Name -->
+      <div>
+        <label for="name" class="section-label">Your Name (optional)</label>
+        <input type="text" id="name" name="name" class="input-text" placeholder="e.g., Alex Johnson" autocomplete="name" />
+      </div>
+      <!-- Overall experience -->
+      <div>
+        <span class="section-label" id="q1-label">1. How would you rate your overall experience in the drums class?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q1-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="overall-1" name="overall_experience" value="1" required />
+            <label for="overall-1">1 - Poor</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="overall-2" name="overall_experience" value="2" />
+            <label for="overall-2">2 - Fair</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="overall-3" name="overall_experience" value="3" />
+            <label for="overall-3">3 - Good</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="overall-4" name="overall_experience" value="4" />
+            <label for="overall-4">4 - Very Good</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="overall-5" name="overall_experience" value="5" />
+            <label for="overall-5">5 - Excellent</label>
+          </div>
+        </div>
+      </div>
+      <!-- Enjoyment -->
+      <div>
+        <label for="enjoyment" class="section-label">2. What did you enjoy most about the class?</label>
+        <textarea id="enjoyment" name="enjoyment" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <!-- Challenges -->
+      <div>
+        <label for="challenges" class="section-label">3. What aspects of the class did you find challenging?</label>
+        <textarea id="challenges" name="challenges" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <!-- Instructor effectiveness -->
+      <div>
+        <span class="section-label" id="q4-label">4. How effective was the instructor in delivering the material?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q4-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="instructor-1" name="instructor_effectiveness" value="1" required />
+            <label for="instructor-1">1 - Poor</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="instructor-2" name="instructor_effectiveness" value="2" />
+            <label for="instructor-2">2 - Fair</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="instructor-3" name="instructor_effectiveness" value="3" />
+            <label for="instructor-3">3 - Good</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="instructor-4" name="instructor_effectiveness" value="4" />
+            <label for="instructor-4">4 - Very Good</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="instructor-5" name="instructor_effectiveness" value="5" />
+            <label for="instructor-5">5 - Excellent</label>
+          </div>
+        </div>
+      </div>
+      <!-- Class content -->
+      <div>
+        <label for="content_meet" class="section-label">5. Did the class content meet your expectations? Why or why not?</label>
+        <textarea id="content_meet" name="content_meet" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <!-- Structure and follow -->
+      <div>
+        <span class="section-label" id="q6-label">6. Were the lessons well-structured and easy to follow?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q6-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="structure-1" name="lesson_structure" value="1" required />
+            <label for="structure-1">1 - Strongly Disagree</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="structure-2" name="lesson_structure" value="2" />
+            <label for="structure-2">2 - Disagree</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="structure-3" name="lesson_structure" value="3" />
+            <label for="structure-3">3 - Neutral</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="structure-4" name="lesson_structure" value="4" />
+            <label for="structure-4">4 - Agree</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="structure-5" name="lesson_structure" value="5" />
+            <label for="structure-5">5 - Strongly Agree</label>
+          </div>
+        </div>
+      </div>
+      <!-- Engagement -->
+      <div>
+        <span class="section-label" id="q7-label">7. How engaged did you feel during the class?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q7-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="engagement-1" name="class_engagement" value="1" required />
+            <label for="engagement-1">1 - Not at all</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="engagement-2" name="class_engagement" value="2" />
+            <label for="engagement-2">2</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="engagement-3" name="class_engagement" value="3" />
+            <label for="engagement-3">3</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="engagement-4" name="class_engagement" value="4" />
+            <label for="engagement-4">4</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="engagement-5" name="class_engagement" value="5" />
+            <label for="engagement-5">5 - Very engaged</label>
+          </div>
+        </div>
+      </div>
+      <!-- Comfortable asking questions -->
+      <div>
+        <span class="section-label" id="q8-label">8. Did you feel comfortable asking questions or seeking help?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q8-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="comfort-1" name="comfort_asking" value="1" required />
+            <label for="comfort-1">1 - Not at all</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="comfort-2" name="comfort_asking" value="2" />
+            <label for="comfort-2">2</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="comfort-3" name="comfort_asking" value="3" />
+            <label for="comfort-3">3</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="comfort-4" name="comfort_asking" value="4" />
+            <label for="comfort-4">4</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="comfort-5" name="comfort_asking" value="5" />
+            <label for="comfort-5">5 - Completely comfortable</label>
+          </div>
+        </div>
+      </div>
+      <!-- Interaction among students -->
+      <div>
+        <span class="section-label" id="q9-label">9. How would you rate the level of interaction among students?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q9-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="interaction-1" name="student_interaction" value="1" required />
+            <label for="interaction-1">1 - Poor</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="interaction-2" name="student_interaction" value="2" />
+            <label for="interaction-2">2</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="interaction-3" name="student_interaction" value="3" />
+            <label for="interaction-3">3</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="interaction-4" name="student_interaction" value="4" />
+            <label for="interaction-4">4</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="interaction-5" name="student_interaction" value="5" />
+            <label for="interaction-5">5 - Excellent</label>
+          </div>
+        </div>
+      </div>
+      <!-- Resources helpful? -->
+      <div>
+        <span class="section-label" id="q10-label">10. Were the materials and resources provided helpful?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q10-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="resources-1" name="resources_helpful" value="1" required />
+            <label for="resources-1">1 - Not Helpful</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="resources-2" name="resources_helpful" value="2" />
+            <label for="resources-2">2</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="resources-3" name="resources_helpful" value="3" />
+            <label for="resources-3">3</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="resources-4" name="resources_helpful" value="4" />
+            <label for="resources-4">4</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="resources-5" name="resources_helpful" value="5" />
+            <label for="resources-5">5 - Very Helpful</label>
+          </div>
+        </div>
+      </div>
+      <!-- Additional resources -->
+      <div>
+        <label for="extra_resources" class="section-label">11. What additional resources would you like to see in future classes?</label>
+        <textarea id="extra_resources" name="extra_resources" placeholder="Write your suggestions here..."></textarea>
+      </div>
+      <!-- Skill improvement -->
+      <div>
+        <span class="section-label" id="q12-label">12. How has your drumming skill improved since taking this class?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q12-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="skill-1" name="skill_improvement" value="1" required />
+            <label for="skill-1">1 - No Improvement</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="skill-2" name="skill_improvement" value="2" />
+            <label for="skill-2">2</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="skill-3" name="skill_improvement" value="3" />
+            <label for="skill-3">3</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="skill-4" name="skill_improvement" value="4" />
+            <label for="skill-4">4</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="skill-5" name="skill_improvement" value="5" />
+            <label for="skill-5">5 - Significant Improvement</label>
+          </div>
+        </div>
+      </div>
+      <!-- Skills focus -->
+      <div>
+        <label for="skills_focus" class="section-label">13. What specific skills or techniques would you like to focus on in future classes?</label>
+        <textarea id="skills_focus" name="skills_focus" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <!-- Suggestions for improvement -->
+      <div>
+        <label for="improvements" class="section-label">14. What changes would you suggest to improve the class?</label>
+        <textarea id="improvements" name="improvements" placeholder="Write your suggestions here..."></textarea>
+      </div>
+      <!-- Additional curriculum -->
+      <div>
+        <label for="additions" class="section-label">15. Is there anything you would like to see added to the curriculum?</label>
+        <textarea id="additions" name="additions" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <!-- Recommend -->
+      <div>
+        <span class="section-label" id="q16-label">16. Would you recommend this class to others?</span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="q16-label" tabindex="0">
+          <div class="radio-item">
+            <input type="radio" id="recommend-1" name="recommend_class" value="yes" required />
+            <label for="recommend-1">Yes</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="recommend-2" name="recommend_class" value="no" />
+            <label for="recommend-2">No</label>
+          </div>
+        </div>
+      </div>
+      <!-- Final comments -->
+      <div>
+        <label for="final_comments" class="section-label">17. Any additional comments or feedback?</label>
+        <textarea id="final_comments" name="final_comments" placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <button type="submit" aria-live="polite">Submit Feedback</button>
+      <p class="thank-you-message" role="alert" aria-live="polite">Thank you for your feedback!</p>
+    </form>
+  </div>
+<script>
+  const form = document.getElementById('feedback-form');
+  const thankYou = form.querySelector('.thank-you-message');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    // Simulate a form submission success
+    thankYou.style.display = 'block';
+    form.querySelector('button[type=submit]').disabled = true;
+    form.querySelectorAll('input, textarea, select').forEach(el => el.disabled = true);
+  });
+</script>
+</body>
+</html>
+
